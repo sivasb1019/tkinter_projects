@@ -21,7 +21,7 @@
 * **clearAll:** Clears input fields in the GUI.
 * **getData:** Retrieves and displays complaint data when a row in the GUI table is selected.
   
-**4. An instance of the Database class is created with the database file "Complaints.db".**
+#### 4. An instance of the Database class is created with the database file "Complaints.db".
 
 ###  5. The main GUI window is created using Tkinter (Tk class) and configured with properties such as the title, geometry, background color, and maximized state.
 
