@@ -1,15 +1,20 @@
+# Import necessary modules from tkinter and database
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from db import Database
 
+# Create a database instance for Employee data
 db = Database("Employee.db")
+
+# Create the main window
 root = Tk()
 root.title("Employee Management System")
 root.geometry("1920x1080+0+0")
 root.config(bg="#2c3e50")
 root.state("zoomed")
 
+# Define StringVar variables to store user input
 name = StringVar()
 age = StringVar()
 doj = StringVar()
@@ -17,12 +22,17 @@ gender = StringVar()
 email = StringVar()
 contact = StringVar()
 
-# Entries Frame
+# Create the 'Entries' frame for input fields
 entries_frame = Frame(root, bg="#535c68")
 entries_frame.pack(side=TOP, fill=X)
+
+# Create the title for the window
 title = Label(entries_frame, text="Employee Management System", font=("Calibri", 18, "bold"), bg="#535c68", fg="white")
 title.grid(row=0, columnspan=2, padx=10, pady=20, sticky="w")
 
+# Create labels and input fields for employee details
+# (Name, Age, D.O.J, Email, Gender, Contact, Address)
+# Set labels and input fields with appropriate fonts and formatting
 lblName = Label(entries_frame, text="Name", font=("Calibri", 16), bg="#535c68", fg="white")
 lblName.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 txtName = Entry(entries_frame, textvariable=name, font=("Calibri", 16), width=30)
@@ -60,12 +70,14 @@ lblAddress.grid(row=4, column=0, padx=10, pady=10, sticky="w")
 txtAddress = Text(entries_frame, width=85, height=5, font=("Calibri", 16))
 txtAddress.grid(row=5, column=0, columnspan=4, padx=10, sticky="w")
 
-def getData(event):
+
+# Function to retrieve data from the table when a row is clicked
+def get_data(event):
     selected_row = tv.focus()
     data = tv.item(selected_row)
     global row
     row = data["values"]
-    #print(row)
+    # Set the input fields with the selected row data
     name.set(row[1])
     age.set(row[2])
     doj.set(row[3])
@@ -75,45 +87,60 @@ def getData(event):
     txtAddress.delete(1.0, END)
     txtAddress.insert(END, row[7])
 
-def dispalyAll():
+
+# Function to display all records in the table
+def display_all():
     tv.delete(*tv.get_children())
     for row in db.fetch():
         tv.insert("", END, values=row)
 
 
+# Function to add a new employee record
 def add_employee():
+    # Check if all input fields are filled
     if txtName.get() == "" or txtAge.get() == "" or txtDoj.get() == "" or txtEmail.get() == "" or comboGender.get() == "" or txtContact.get() == "" or txtAddress.get(
             1.0, END) == "":
         messagebox.showerror("Erorr in Input", "Please Fill All the Details")
         return
-    db.insert(txtName.get(),txtAge.get(), txtDoj.get() , txtEmail.get() ,
+    # Insert the data into the database
+    db.insert(txtName.get(), txtAge.get(), txtDoj.get(), txtEmail.get(),
               comboGender.get(), txtContact.get(), txtAddress.get(1.0, END))
+    # Show a success message, clear input fields, and update the table
     messagebox.showinfo("Success", "Record Inserted")
-    clearAll()
-    dispalyAll()
+    clear_all()
+    display_all()
 
 
-
+# Function to update an employee record
 def update_employee():
+    # Check if all input fields are filled
     if txtName.get() == "" or txtAge.get() == "" or txtDoj.get() == "" or txtEmail.get() == "" or comboGender.get() == "" or txtContact.get() == "" or txtAddress.get(
             1.0, END) == "":
         messagebox.showerror("Erorr in Input", "Please Fill All the Details")
         return
-    db.update(row[0],txtName.get(), txtAge.get(), txtDoj.get(), txtEmail.get(), comboGender.get(), txtContact.get(),
+    # Update the data in the database
+    db.update(row[0], txtName.get(), txtAge.get(), txtDoj.get(), txtEmail.get(), comboGender.get(), txtContact.get(),
               txtAddress.get(
                   1.0, END))
+    # Show a success message, clear input fields, and update the table
     messagebox.showinfo("Success", "Record Update")
-    clearAll()
-    dispalyAll()
+    clear_all()
+    display_all()
 
 
+# Function to delete an employee record
 def delete_employee():
+    # Remove the selected record from the database
     db.remove(row[0])
-    clearAll()
-    dispalyAll()
+    # Show a success message, clear input fields, and update the table
+    messagebox.showinfo("Success", "Record Deleted")
+    clear_all()
+    display_all()
 
 
-def clearAll():
+# Function to clear all input fields
+def clear_all():
+    # Clear all input fields
     name.set("")
     age.set("")
     doj.set("")
@@ -123,28 +150,40 @@ def clearAll():
     txtAddress.delete(1.0, END)
 
 
+# Create buttons for various actions (Add, Update, Delete, Clear)
 btn_frame = Frame(entries_frame, bg="#535c68")
 btn_frame.grid(row=6, column=0, columnspan=4, padx=10, pady=10, sticky="w")
 btnAdd = Button(btn_frame, command=add_employee, text="Add Details", width=15, font=("Calibri", 16, "bold"), fg="white",
-                bg="#16a085", bd=0).grid(row=0, column=0)
+                bg="#16a085", bd=0)
+btnAdd.grid(row=0, column=0)
 btnEdit = Button(btn_frame, command=update_employee, text="Update Details", width=15, font=("Calibri", 16, "bold"),
                  fg="white", bg="#2980b9",
-                 bd=0).grid(row=0, column=1, padx=10)
+                 bd=0)
+btnEdit.grid(row=0, column=1, padx=10)
 btnDelete = Button(btn_frame, command=delete_employee, text="Delete Details", width=15, font=("Calibri", 16, "bold"),
                    fg="white", bg="#c0392b",
-                   bd=0).grid(row=0, column=2, padx=10)
-btnClear = Button(btn_frame, command=clearAll, text="Clear Details", width=15, font=("Calibri", 16, "bold"), fg="white",
+                   bd=0)
+btnDelete.grid(row=0, column=2, padx=10)
+btnClear = Button(btn_frame, command=clear_all, text="Clear Details", width=15, font=("Calibri", 16, "bold"),
+                  fg="white",
                   bg="#f39c12",
-                  bd=0).grid(row=0, column=3, padx=10)
+                  bd=0)
+btnClear.grid(row=0, column=3, padx=10)
 
-# Table Frame
+# Create a table frame for displaying employee data
 tree_frame = Frame(root, bg="#ecf0f1")
 tree_frame.place(x=0, y=480, width=1980, height=520)
+
+# Define the style for the table view (Treeview)
 style = ttk.Style()
 style.configure("mystyle.Treeview", font=('Calibri', 18),
                 rowheight=50)  # Modify the font of the body
 style.configure("mystyle.Treeview.Heading", font=('Calibri', 18))  # Modify the font of the headings
+
+# Create a Treeview widget to display the employee data in a table
 tv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8), style="mystyle.Treeview")
+
+# Set headings and columns for the table
 tv.heading("1", text="ID")
 tv.column("1", width=5)
 tv.heading("2", text="Name")
@@ -158,8 +197,13 @@ tv.column("6", width=10)
 tv.heading("7", text="Contact")
 tv.heading("8", text="Address")
 tv['show'] = 'headings'
-tv.bind("<ButtonRelease-1>", getData)
+
+# Bind a click event to retrieve data when a row is selected
+tv.bind("<ButtonRelease-1>", get_data)
 tv.pack(fill=X)
 
-dispalyAll()
+# Display all records in the table
+display_all()
+
+# Start the main GUI event loop
 root.mainloop()
