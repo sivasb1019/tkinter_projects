@@ -7,7 +7,7 @@
 * **messagebox:** It provides a way to display messages or alerts to the user.
 * **ttk:** The Tkinter themed widget set for enhanced GUI components.
 * **sqlite3:** Used for creating and managing a SQLite database.
-* 
+  
 ### 2. A class named Database is defined to handle database operations:
 * The constructor (__init__) initializes a SQLite database connection and creates a table named complaintList if it doesn't already exist.
 * This table is used to store complaints.
@@ -20,19 +20,27 @@
 * **addComplaint:** Validates and adds a new complaint to the database.
 * **clearAll:** Clears input fields in the GUI.
 * **getData:** Retrieves and displays complaint data when a row in the GUI table is selected.
+
   
-#### 4. An instance of the Database class is created with the database file "Complaints.db".
+**4.** An instance of the Database class is created with the database file "Complaints.db".
 
-###  5. The main GUI window is created using Tkinter (Tk class) and configured with properties such as the title, geometry, background color, and maximized state.
 
-###  6. Labels and input fields for the complaint details (Name, Age, Email, Contact No, Complaints) are created and positioned within the GUI.
+**5.** The main GUI window is created using Tkinter (Tk class) and configured with properties such as the title, geometry, background color, and maximized state.
 
-### 7. Buttons are added to the GUI for submitting complaints, clearing input fields, and displaying the list of complaints.
 
-### 8. A section for displaying the list of complaints is created using a ttk.Treeview widget.
+**6.** Labels and input fields for the complaint details (Name, Age, Email, Contact No, Complaints) are created and positioned within the GUI.
 
-### 9. The Treeview is configured with columns to display complaint data, and a function is defined to handle row selection to view complaint details.
 
-### 10. The main event loop (window.mainloop()) is started to run the GUI application.
+**7.** Buttons are added to the GUI for submitting complaints, clearing input fields, and displaying the list of complaints.
 
-### 11.Thi s code creates a simple GUI application for registering and managing complaints, allowing users to add, view, and clear complaint entries. It stores the complaint data in a SQLite database.
+
+**8.** A section for displaying the list of complaints is created using a ttk.Treeview widget.
+
+
+**9.** The Treeview is configured with columns to display complaint data, and a function is defined to handle row selection to view complaint details.
+
+
+**10.** The main event loop (window.mainloop()) is started to run the GUI application.
+
+
+**11.** This code creates a simple GUI application for registering and managing complaints, allowing users to add, view, and clear complaint entries. It stores the complaint data in a SQLite database.
